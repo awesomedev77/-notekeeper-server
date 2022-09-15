@@ -22,9 +22,22 @@ async function run() {
         const taskCollection = database.collection("taskCollection");
         //get api
         app.get('/task', async (req, res) => {
-            const cursor = taskCollection.find({});
-            const task = await cursor.toArray();
-            res.send(task.reverse());
+            const page = req.query.page;
+            const size = parseInt(req.query.size);
+            const cursor = taskCollection.find().sort({ $natural: -1 });
+            let task;
+            const count = await cursor.count();
+            // pagination Selection
+            if (page) {
+                task = await cursor.skip(page * size).limit(size).toArray();
+            }
+            else {
+                task = await cursor.limit(6).toArray();
+            }
+            res.send({
+                count,
+                task
+            });
         })
 
         // add a task      
@@ -63,7 +76,6 @@ async function run() {
                 }
             };
             const result = await taskCollection.updateOne(query, updatePin);
-            console.log(result);
             res.json(result);
         })
         //unpin task route
@@ -76,9 +88,24 @@ async function run() {
                 }
             };
             const result = await taskCollection.updateOne(query, updatePin);
+            res.json(result);
+        })
+
+        //complete task route
+        app.put('/complete/task/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) }
+            const completeTask = {
+                $set: {
+                    complete: true,
+                    pin: false
+                }
+            };
+            const result = await taskCollection.updateMany(query, completeTask);
             console.log(result);
             res.json(result);
         })
+
         //delete task api
         app.delete('/task/:id', async (req, res) => {
             const id = req.params.id;
