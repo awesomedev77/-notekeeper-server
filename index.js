@@ -94,7 +94,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get('/', (req, res) => {
-    res.send('Wow todo server is running');
+    res.send('todo server is running');
 })
 
 app.listen(port, () => {
