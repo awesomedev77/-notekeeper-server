@@ -1,0 +1,20 @@
+const express = require("express");
+const app = express();
+const cors = require("cors");
+
+//middleware
+app.use(cors());
+app.use(express.json());
+
+// route
+const taskRoute = require("./Routes/task.route");
+
+app.use("/task", taskRoute);
+
+app.get("/", (req, res) => {
+  res.send(`
+    <h1> App server is running </h1>
+    `);
+});
+
+module.exports = app;
