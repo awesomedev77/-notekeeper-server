@@ -9,7 +9,7 @@ app.use(express.json());
 // route
 const taskRoute = require("./Routes/task.route");
 
-app.use("/task", taskRoute);
+app.use("/api/task", taskRoute);
 
 app.get("/", (req, res) => {
   res.send(`

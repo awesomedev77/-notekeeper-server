@@ -3,9 +3,9 @@ const router = express.Router();
 const taskController = require("../Controllers/task.controller");
 
 //get all task
-router.route("/").get(taskController.getTask);
+router.route("/").get(taskController.getTask).post(taskController.postTask);
 
-//updte task .post(taskController.postTask)
+//updte task
 /* router.route("/update/:id").put(taskController.updateTask);
 
 //pin task
