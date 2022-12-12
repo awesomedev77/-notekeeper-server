@@ -2,6 +2,9 @@ const {
   getTaskInfo,
   postTaskInfo,
   pinTaskInfo,
+  completeTaskInfo,
+  deleteTaskInfo,
+  updateTaskInfo,
 } = require("../Services/task.service");
 
 exports.getTask = async (req, res, next) => {
@@ -53,6 +56,24 @@ exports.postTask = async (req, res, next) => {
     });
   }
 };
+exports.updateTask = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const result = await updateTaskInfo(req.body, id);
+
+    res.status(200).json({
+      status: "success",
+      message: "task updated successfully",
+      data: result,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "error",
+      message: "Can't updated Task an error occurred",
+      error: error.message,
+    });
+  }
+};
 exports.pinTask = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -87,6 +108,43 @@ exports.unPinTask = async (req, res, next) => {
     res.status(400).json({
       status: "error",
       message: "Can't Un pinned Task an error occurred",
+      error: error.message,
+    });
+  }
+};
+exports.completeTask = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const unpin = { complete: true, pin: false };
+    const result = await completeTaskInfo(unpin, id);
+
+    res.status(200).json({
+      status: "success",
+      message: "task completed successfully",
+      data: result,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "error",
+      message: "Can't completed Task an error occurred",
+      error: error.message,
+    });
+  }
+};
+exports.deleteTask = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const result = await deleteTaskInfo(id);
+
+    res.status(200).json({
+      status: "success",
+      message: "task deleted successfully",
+      data: result,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "error",
+      message: "Can't deleted Task an error occurred",
       error: error.message,
     });
   }

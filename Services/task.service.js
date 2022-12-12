@@ -17,9 +17,24 @@ exports.postTaskInfo = async (data) => {
   const result = await taskInfoSchema.create(data);
   return result;
 };
+exports.updateTaskInfo = async (data, id) => {
+  const query = { _id: ObjectId(id) };
+  const result = await taskInfoSchema.updateMany(query, data);
+  return result;
+};
 exports.pinTaskInfo = async (data, id) => {
   const query = { _id: ObjectId(id) };
   const result = await taskInfoSchema.updateOne(query, data);
+  return result;
+};
+exports.completeTaskInfo = async (data, id) => {
+  const query = { _id: ObjectId(id) };
+  const result = await taskInfoSchema.updateOne(query, data);
+  return result;
+};
+exports.deleteTaskInfo = async (id) => {
+  const query = { _id: ObjectId(id) };
+  const result = await taskInfoSchema.deleteOne(query);
   return result;
 };
 
