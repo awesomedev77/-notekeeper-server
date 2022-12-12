@@ -1,4 +1,8 @@
-const { getTaskInfo, postTaskInfo } = require("../Services/task.service");
+const {
+  getTaskInfo,
+  postTaskInfo,
+  pinTaskInfo,
+} = require("../Services/task.service");
 
 exports.getTask = async (req, res, next) => {
   try {
@@ -45,6 +49,44 @@ exports.postTask = async (req, res, next) => {
     res.status(400).json({
       status: "error",
       message: "Can't post Task an error occurred",
+      error: error.message,
+    });
+  }
+};
+exports.pinTask = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const pin = { pin: true };
+    const result = await pinTaskInfo(pin, id);
+
+    res.status(200).json({
+      status: "success",
+      message: "task pinned successfully",
+      data: result,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "error",
+      message: "Can't pinned Task an error occurred",
+      error: error.message,
+    });
+  }
+};
+exports.unPinTask = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const unpin = { pin: false };
+    const result = await pinTaskInfo(unpin, id);
+
+    res.status(200).json({
+      status: "success",
+      message: "task Un pinned successfully",
+      data: result,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "error",
+      message: "Can't Un pinned Task an error occurred",
       error: error.message,
     });
   }

@@ -1,10 +1,6 @@
 const taskInfoSchema = require("../Models/taskInfoSchema");
+const ObjectId = require("mongodb").ObjectId;
 exports.getTaskInfo = async (queryObjectFilter, queries) => {
-  /*  const result = await taskInfoSchema.find().skip().sort({ $natural: -1 });
-  // let task;
-  const countRes = await taskInfoSchema.find().sort({ $natural: -1 }).count();
-  console.log(countRes, page, size);
-  return result; */
   const result = await taskInfoSchema
     .find({ queryObjectFilter })
     .select(queries.fields)
@@ -19,6 +15,11 @@ exports.getTaskInfo = async (queryObjectFilter, queries) => {
 };
 exports.postTaskInfo = async (data) => {
   const result = await taskInfoSchema.create(data);
+  return result;
+};
+exports.pinTaskInfo = async (data, id) => {
+  const query = { _id: ObjectId(id) };
+  const result = await taskInfoSchema.updateOne(query, data);
   return result;
 };
 

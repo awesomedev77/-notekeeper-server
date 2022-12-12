@@ -6,15 +6,15 @@ const taskController = require("../Controllers/task.controller");
 router.route("/").get(taskController.getTask).post(taskController.postTask);
 
 //updte task
-/* router.route("/update/:id").put(taskController.updateTask);
+// router.route("/update/:id").put(taskController.updateTask);
 
 //pin task
 router.route("/pin/:id").put(taskController.pinTask);
 
 //unpin task
-router.route("/unpin/:id").put(taskController.unpinTask);
+router.route("/unpin/:id").put(taskController.unPinTask);
 
-//complete task
+/*//complete task
 router.route("/complete/:id").put(taskController.completeTask);
 
 //delete task
