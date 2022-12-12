@@ -18,14 +18,15 @@ exports.getTask = async (req, res, next) => {
 
     let result;
     let queries = {};
-    const { limit = size } = req.query;
+    // const { limit = size } = req.query;
+    console.log(pageCount, "size", size);
     if (pageCount > 0) {
-      const skip = (pageCount - 1) * parseInt(limit);
+      const skip = pageCount * size;
       queries.skip = skip;
-      queries.limit = parseInt(limit);
+      queries.limit = size;
       result = await getTaskInfo(queryObjectFilter, queries);
     } else {
-      queries.limit = parseInt(limit);
+      queries.limit = size;
       result = await getTaskInfo(queryObjectFilter, queries);
     }
 

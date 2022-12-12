@@ -13,7 +13,7 @@ app.use("/api/task", taskRoute);
 
 app.get("/", (req, res) => {
   res.send(`
-    <h1> App server is running </h1>
+    <h1> Todo App server is running </h1>
     `);
 });
 
