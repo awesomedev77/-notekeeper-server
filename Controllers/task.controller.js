@@ -17,9 +17,9 @@ exports.getTask = async (req, res, next) => {
     excludeField.forEach((field) => delete queryObjectFilter[field]);
 
     let queries = {};
-    if (req.query.page) {
-      const { page = pageCount || 1, limit = size || 6 } = req.query;
-      const skip = (page - 1) * parseInt(limit);
+    if (pageCount) {
+      const { limit = size || 6 } = req.query;
+      const skip = (pageCount - 1) * parseInt(limit);
       queries.skip = skip;
       queries.limit = parseInt(limit);
     }
