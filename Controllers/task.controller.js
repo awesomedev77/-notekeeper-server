@@ -9,22 +9,26 @@ const {
 
 exports.getTask = async (req, res, next) => {
   try {
-    const pageCount = req.query.page;
+    const pageCount = parseInt(req.query.page);
     const size = parseInt(req.query.size);
 
     let queryObjectFilter = { ...req.query };
     const excludeField = ["sort", "page", "limit"];
     excludeField.forEach((field) => delete queryObjectFilter[field]);
 
+    let result;
     let queries = {};
-    if (pageCount) {
-      const { limit = size || 6 } = req.query;
+    const { limit = size } = req.query;
+    if (pageCount > 0) {
       const skip = (pageCount - 1) * parseInt(limit);
       queries.skip = skip;
       queries.limit = parseInt(limit);
+      result = await getTaskInfo(queryObjectFilter, queries);
+    } else {
+      queries.limit = parseInt(limit);
+      result = await getTaskInfo(queryObjectFilter, queries);
     }
 
-    const result = await getTaskInfo(queryObjectFilter, queries);
     res.status(200).json({
       status: "success",
       message: "task get successfully",
